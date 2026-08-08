@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class TownhallBottomPanel extends StatelessWidget {
   final String title;
@@ -31,13 +32,11 @@ class TownhallBottomPanel extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.network(
-              imageUrl,
+            CustomNetworkImage(
+              imageUrl: imageUrl,
               height: 70,
               width: 70,
               fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.account_balance, color: Colors.amber, size: 60),
             ),
             const SizedBox(width: 16),
             Expanded(

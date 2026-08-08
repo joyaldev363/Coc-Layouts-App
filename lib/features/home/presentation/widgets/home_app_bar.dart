@@ -13,10 +13,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: colorScheme.background,
       elevation: 0,
-      leading: IconButton(
-        icon: Icon(Icons.menu, color: colorScheme.onBackground),
-        onPressed: () {},
-      ),
+
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,26 +36,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.search, color: colorScheme.onBackground),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SearchPage()),
-            );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.notifications_none, color: colorScheme.onBackground),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const NotificationsPage()),
-            );
-          },
-        ),
-      ],
     );
   }
 

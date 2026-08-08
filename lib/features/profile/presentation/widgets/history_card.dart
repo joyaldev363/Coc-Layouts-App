@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 enum HistoryActionType { copied, viewed, downloaded }
 
@@ -61,14 +62,12 @@ class HistoryCard extends StatelessWidget {
       child: Row(
         children: [
           // Image
-          ClipRRect(
+          CustomNetworkImage(
+            imageUrl: imageUrl,
+            width: 140,
+            height: double.infinity,
+            fit: BoxFit.cover,
             borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
-            child: Image.network(
-              imageUrl,
-              width: 140,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
           ),
           // Details
           Expanded(

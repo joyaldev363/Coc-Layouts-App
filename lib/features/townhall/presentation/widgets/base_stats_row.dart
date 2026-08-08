@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
+import '../../../home/models/layout_model.dart';
 
 class BaseStatsRow extends StatelessWidget {
-  const BaseStatsRow({super.key});
+  final LayoutModel layout;
+
+  const BaseStatsRow({super.key, required this.layout});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    // Display views in K format if large
+    final String displayViews = layout.views >= 1000
+        ? '${(layout.views / 1000).toStringAsFixed(1)}K'
+        : layout.views.toString();
+
+    // Display rating/win rate
+    final String displayRating = layout.winRate != null
+        ? layout.winRate!.toStringAsFixed(1)
+        : '4.8';
 
     return Container(
       margin: const EdgeInsets.all(16.0),
@@ -28,7 +41,7 @@ class BaseStatsRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'War Base',
+                    layout.category.isNotEmpty ? layout.category : 'War Base',
                     style: TextStyle(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
@@ -36,7 +49,7 @@ class BaseStatsRow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'TH17',
+                    layout.thLevel.isNotEmpty ? layout.thLevel : 'TH17',
                     style: TextStyle(
                       color: colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 11,
@@ -51,13 +64,13 @@ class BaseStatsRow extends StatelessWidget {
           // Rating
           Column(
             children: [
-              const Text('4.8', style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18)),
+              Text(displayRating, style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 18)),
               Row(
                 children: [
                   const Icon(Icons.star, color: Colors.amber, size: 12),
                   const SizedBox(width: 4),
                   Text(
-                    '(1.2K)',
+                    '(${layout.downloads >= 1000 ? "${(layout.downloads / 1000).toStringAsFixed(1)}K" : layout.downloads})',
                     style: TextStyle(
                       color: colorScheme.onSurface.withOpacity(0.5),
                       fontSize: 10,
@@ -77,7 +90,7 @@ class BaseStatsRow extends StatelessWidget {
                   Icon(Icons.visibility, color: colorScheme.onSurface.withOpacity(0.7), size: 16),
                   const SizedBox(width: 4),
                   Text(
-                    '25.4K',
+                    displayViews,
                     style: TextStyle(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.bold,

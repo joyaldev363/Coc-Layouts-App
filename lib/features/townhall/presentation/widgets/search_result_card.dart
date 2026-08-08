@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class SearchResultCard extends StatelessWidget {
   final String title;
@@ -18,7 +19,7 @@ class SearchResultCard extends StatelessWidget {
     required this.views,
     required this.likes,
     required this.imageUrl,
-    this.categoryIcon = Icons.shield,
+    required this.categoryIcon,
     this.categoryColor = Colors.redAccent,
   });
 
@@ -40,14 +41,12 @@ class SearchResultCard extends StatelessWidget {
           // Image
           Stack(
             children: [
-              ClipRRect(
+              CustomNetworkImage(
+                imageUrl: imageUrl,
+                width: 140,
+                height: 120,
+                fit: BoxFit.cover,
                 borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
-                child: Image.network(
-                  imageUrl,
-                  width: 140,
-                  height: 120,
-                  fit: BoxFit.cover,
-                ),
               ),
               Positioned(
                 top: 8,

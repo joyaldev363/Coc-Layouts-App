@@ -108,14 +108,24 @@ class _ProfileMenuItem extends StatelessWidget {
 
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      leading: Icon(icon, color: colorScheme.onSurface.withOpacity(0.7), size: 28),
+      leading: Icon(
+        icon,
+        color: colorScheme.onSurface.withOpacity(0.7),
+        size: 28,
+      ),
       title: Text(
         title,
-        style: TextStyle(color: colorScheme.onSurface, fontWeight: FontWeight.w500),
+        style: TextStyle(
+          color: colorScheme.onSurface,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       subtitle: Text(
         subtitle,
-        style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 13),
+        style: TextStyle(
+          color: colorScheme.onSurface.withOpacity(0.6),
+          fontSize: 13,
+        ),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -123,10 +133,16 @@ class _ProfileMenuItem extends StatelessWidget {
           if (trailingText != null)
             Text(
               trailingText!,
-              style: TextStyle(color: colorScheme.onSurface.withOpacity(0.7), fontSize: 16),
+              style: TextStyle(
+                color: colorScheme.onSurface.withOpacity(0.7),
+                fontSize: 16,
+              ),
             ),
           if (trailingText != null) const SizedBox(width: 8),
-          Icon(Icons.chevron_right, color: colorScheme.onSurface.withOpacity(0.5)),
+          Icon(
+            Icons.chevron_right,
+            color: colorScheme.onSurface.withOpacity(0.5),
+          ),
         ],
       ),
       onTap: onTap,

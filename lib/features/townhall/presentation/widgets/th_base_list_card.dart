@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import '../../../../core/widgets/custom_network_image.dart';
+import '../../../home/models/layout_model.dart';
 import '../pages/layout_detail_page.dart';
 
 class ThBaseListCard extends StatelessWidget {
-  final String title;
-  final String category;
-  final String rating;
-  final String views;
-  final String likes;
-  final String imageUrl;
+  final LayoutModel layout;
 
-  const ThBaseListCard({
-    super.key,
-    required this.title,
-    required this.category,
-    required this.rating,
-    required this.views,
-    required this.likes,
-    required this.imageUrl,
-  });
+  const ThBaseListCard({super.key, required this.layout});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    final String displayRating = layout.winRate != null
+        ? layout.winRate!.toStringAsFixed(1)
+        : '4.8';
+
+    final String displayViews = layout.views >= 1000
+        ? '${(layout.views / 1000).toStringAsFixed(1)}K'
+        : layout.views.toString();
+
+    final String displayLikes = layout.downloads >= 1000
+        ? '${(layout.downloads / 1000).toStringAsFixed(1)}K'
+        : layout.downloads.toString();
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const LayoutDetailPage()),
+          MaterialPageRoute(builder: (_) => LayoutDetailPage(layout: layout)),
         );
       },
       child: Container(
@@ -48,44 +50,13 @@ class ThBaseListCard extends StatelessWidget {
                   borderRadius: const BorderRadius.horizontal(
                     left: Radius.circular(12),
                   ),
-                  child: Image.network(
-                    imageUrl,
+                  child: CustomNetworkImage(
+                    imageUrl: layout.imageUrl.isNotEmpty
+                        ? layout.imageUrl
+                        : 'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
                     width: 150,
-                    height: 165, // Adjust height to match content
+                    height: 155, // Adjust height to match content
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      width: 150,
-                      height: 165,
-                      color: colorScheme.onSurface.withOpacity(0.05),
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.broken_image_outlined,
-                        color: colorScheme.onSurface.withOpacity(0.2),
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 8,
-                  left: 8,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Text(
-                      'NEW',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                   ),
                 ),
               ],
@@ -103,7 +74,7 @@ class ThBaseListCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            title,
+                            layout.name,
                             style: TextStyle(
                               color: colorScheme.onSurface,
                               fontSize: 14,
@@ -112,12 +83,6 @@ class ThBaseListCard extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Icon(
-                          Icons.favorite_border,
-                          color: colorScheme.onSurface.withOpacity(0.7),
-                          size: 20,
                         ),
                       ],
                     ),
@@ -134,7 +99,9 @@ class ThBaseListCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              category,
+                              layout.category.isNotEmpty
+                                  ? layout.category
+                                  : 'War Base',
                               style: TextStyle(
                                 color: colorScheme.onSurface.withOpacity(0.7),
                                 fontSize: 11,
@@ -151,7 +118,7 @@ class ThBaseListCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              rating,
+                              displayRating,
                               style: TextStyle(
                                 color: colorScheme.onSurface.withOpacity(0.7),
                                 fontSize: 11,
@@ -171,7 +138,7 @@ class ThBaseListCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          views,
+                          displayViews,
                           style: TextStyle(
                             color: colorScheme.onSurface.withOpacity(0.7),
                             fontSize: 11,
@@ -185,7 +152,7 @@ class ThBaseListCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          likes,
+                          displayLikes,
                           style: TextStyle(
                             color: colorScheme.onSurface.withOpacity(0.7),
                             fontSize: 11,
@@ -193,12 +160,34 @@ class ThBaseListCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
                       height: 36,
                       child: ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          final link = layout.copyLink;
+                          if (link != null && link.isNotEmpty) {
+                            Clipboard.setData(ClipboardData(text: link));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Layout link copied to clipboard!',
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Copy link not available for this layout.',
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,
                           foregroundColor: Colors.black,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'history_page.dart';
 import 'legal_page.dart'; // Import the new legal page
 
 // Providers for the settings state
@@ -20,75 +21,108 @@ class SettingsPage extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: colorScheme.background,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: colorScheme.onBackground),
-          onPressed: () {
-            if (Navigator.canPop(context)) Navigator.pop(context);
-          },
-        ),
-        title: Text(
-          'Settings',
-          style: TextStyle(
-            color: colorScheme.onBackground,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        children: [
-          _buildSectionHeader(context, 'Preferences'),
-          _buildSettingsGroup(context, [
-            _buildSwitchItem(context, Icons.notifications_active_outlined, 'Push Notifications', pushEnabled, (val) {
-              ref.read(pushNotificationsProvider.notifier).state = val;
-            }),
-            _buildDivider(context),
-            _buildSwitchItem(context, Icons.dark_mode_outlined, 'Dark Theme', darkThemeEnabled, (val) {
+    return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      children: [
+        _buildSectionHeader(context, 'Preferences'),
+        _buildSettingsGroup(context, [
+          _buildSwitchItem(
+            context,
+            Icons.dark_mode_outlined,
+            'Dark Theme',
+            darkThemeEnabled,
+            (val) {
               ref.read(darkThemeProvider.notifier).state = val;
-            }),
-            _buildDivider(context),
-            _buildSelectionItem(context, ref, Icons.shield_outlined, 'Default Town Hall', defaultTh),
-          ]),
-          const SizedBox(height: 24),
-          _buildSectionHeader(context, 'Account'),
-          _buildSettingsGroup(context, [
-            _buildNavigationItem(context, Icons.person_outline, 'Edit Profile'),
-            _buildDivider(context),
-            _buildNavigationItem(context, Icons.lock_outline, 'Change Password'),
-            _buildDivider(context),
-            _buildNavigationItem(context, Icons.logout, 'Log Out', isDestructive: true),
-          ]),
-          const SizedBox(height: 24),
-          _buildSectionHeader(context, 'About'),
-          _buildSettingsGroup(context, [
-            _buildNavigationItem(context, Icons.star_outline, 'Rate Us', onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening App Store...')));
-            }),
-            _buildDivider(context),
-            _buildNavigationItem(context, Icons.share_outlined, 'Share App', onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Opening Share Dialog...')));
-            }),
-            _buildDivider(context),
-            _buildNavigationItem(context, Icons.privacy_tip_outlined, 'Privacy Policy', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const LegalPage(title: 'Privacy Policy')));
-            }),
-            _buildDivider(context),
-            _buildNavigationItem(context, Icons.info_outline, 'Terms of Service', onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const LegalPage(title: 'Terms of Service')));
-            }),
-            _buildDivider(context),
-            _buildVersionItem(context),
-          ]),
-          const SizedBox(height: 40),
-        ],
-      ),
+            },
+          ),
+          _buildDivider(context),
+          _buildNavigationItem(
+            context,
+            Icons.history,
+            'History',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const HistoryPage()),
+              );
+            },
+          ),
+        ]),
+
+        const SizedBox(height: 24),
+        _buildSectionHeader(context, 'Activity & Support'),
+        _buildSettingsGroup(context, [
+          _buildNavigationItem(
+            context,
+            Icons.headset_mic_outlined,
+            'Help & Support',
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Opening Help & Support...')),
+              );
+            },
+          ),
+        ]),
+
+        const SizedBox(height: 24),
+        _buildSectionHeader(context, 'About'),
+        _buildSettingsGroup(context, [
+          _buildNavigationItem(
+            context,
+            Icons.star_outline,
+            'Rate Us',
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Opening App Store...')),
+              );
+            },
+          ),
+          _buildDivider(context),
+          _buildNavigationItem(
+            context,
+            Icons.share_outlined,
+            'Share App',
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Opening Share Dialog...')),
+              );
+            },
+          ),
+          _buildDivider(context),
+          _buildNavigationItem(
+            context,
+            Icons.privacy_tip_outlined,
+            'Privacy Policy',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LegalPage(title: 'Privacy Policy'),
+                ),
+              );
+            },
+          ),
+          _buildDivider(context),
+          _buildNavigationItem(
+            context,
+            Icons.info_outline,
+            'Terms of Service',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LegalPage(title: 'Terms of Service'),
+                ),
+              );
+            },
+          ),
+          _buildDivider(context),
+          _buildVersionItem(context),
+        ]),
+        const SizedBox(height: 40),
+      ],
     );
   }
 
@@ -119,9 +153,7 @@ class SettingsPage extends ConsumerWidget {
           side: BorderSide(color: colorScheme.onSurface.withOpacity(0.08)),
         ),
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          children: children,
-        ),
+        child: Column(children: children),
       ),
     );
   }
@@ -135,7 +167,13 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildSwitchItem(BuildContext context, IconData icon, String title, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildSwitchItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -166,7 +204,13 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildSelectionItem(BuildContext context, WidgetRef ref, IconData icon, String title, String selectedValue) {
+  Widget _buildSelectionItem(
+    BuildContext context,
+    WidgetRef ref,
+    IconData icon,
+    String title,
+    String selectedValue,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: () => _showTownHallSelector(context, ref, selectedValue),
@@ -194,14 +238,22 @@ class SettingsPage extends ConsumerWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Icon(Icons.chevron_right, color: colorScheme.onSurface.withOpacity(0.3), size: 20),
+            Icon(
+              Icons.chevron_right,
+              color: colorScheme.onSurface.withOpacity(0.3),
+              size: 20,
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _showTownHallSelector(BuildContext context, WidgetRef ref, String currentValue) {
+  void _showTownHallSelector(
+    BuildContext context,
+    WidgetRef ref,
+    String currentValue,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
@@ -226,7 +278,10 @@ class SettingsPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Divider(color: colorScheme.onSurface.withOpacity(0.08), height: 1),
+                Divider(
+                  color: colorScheme.onSurface.withOpacity(0.08),
+                  height: 1,
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: 17,
@@ -238,13 +293,20 @@ class SettingsPage extends ConsumerWidget {
                         title: Text(
                           thLevel,
                           style: TextStyle(
-                            color: isSelected ? Colors.amber : colorScheme.onSurface,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            color: isSelected
+                                ? Colors.amber
+                                : colorScheme.onSurface,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
                           ),
                         ),
-                        trailing: isSelected ? const Icon(Icons.check, color: Colors.amber) : null,
+                        trailing: isSelected
+                            ? const Icon(Icons.check, color: Colors.amber)
+                            : null,
                         onTap: () {
-                          ref.read(defaultTownHallProvider.notifier).state = thLevel;
+                          ref.read(defaultTownHallProvider.notifier).state =
+                              thLevel;
                           Navigator.pop(context);
                         },
                       );
@@ -259,7 +321,13 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildNavigationItem(BuildContext context, IconData icon, String title, {bool isDestructive = false, VoidCallback? onTap}) {
+  Widget _buildNavigationItem(
+    BuildContext context,
+    IconData icon,
+    String title, {
+    bool isDestructive = false,
+    VoidCallback? onTap,
+  }) {
     final colorScheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: onTap ?? () {},
@@ -269,7 +337,9 @@ class SettingsPage extends ConsumerWidget {
           children: [
             Icon(
               icon,
-              color: isDestructive ? Colors.redAccent : colorScheme.onSurface.withOpacity(0.7),
+              color: isDestructive
+                  ? Colors.redAccent
+                  : colorScheme.onSurface.withOpacity(0.7),
               size: 22,
             ),
             const SizedBox(width: 16),
@@ -277,7 +347,9 @@ class SettingsPage extends ConsumerWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  color: isDestructive ? Colors.redAccent : colorScheme.onSurface,
+                  color: isDestructive
+                      ? Colors.redAccent
+                      : colorScheme.onSurface,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -299,13 +371,19 @@ class SettingsPage extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Clash Layouts is up to date!')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Clash Layouts is up to date!')),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Row(
           children: [
-            Icon(Icons.info_outline, color: colorScheme.onSurface.withOpacity(0.7), size: 22),
+            Icon(
+              Icons.info_outline,
+              color: colorScheme.onSurface.withOpacity(0.7),
+              size: 22,
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Text(

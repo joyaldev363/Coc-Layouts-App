@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class TownhallGridItem extends StatelessWidget {
   final String level;
@@ -12,7 +13,7 @@ class TownhallGridItem extends StatelessWidget {
     required this.level,
     required this.imageUrl,
     required this.isSelected,
-    this.isLocked = false,
+    required this.isLocked,
     required this.onTap,
   });
 
@@ -22,7 +23,7 @@ class TownhallGridItem extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return GestureDetector(
-      onTap: isLocked ? null : onTap,
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surface,
@@ -40,13 +41,11 @@ class TownhallGridItem extends StatelessWidget {
               children: [
                 Opacity(
                   opacity: isLocked ? 0.3 : 1.0,
-                  child: Image.network(
-                    imageUrl,
+                  child: CustomNetworkImage(
+                    imageUrl: imageUrl,
                     height: 50,
                     width: 50,
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.account_balance, color: colorScheme.onSurface.withOpacity(0.4), size: 40),
                   ),
                 ),
                 const SizedBox(height: 8),

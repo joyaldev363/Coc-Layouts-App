@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../home/models/layout_model.dart';
+import '../pages/layout_detail_page.dart';
 
 class RecommendedBasesSection extends StatelessWidget {
   const RecommendedBasesSection({super.key});
@@ -17,50 +19,120 @@ class RecommendedBasesSection extends StatelessWidget {
             children: [
               Text(
                 'Recommended Bases',
-                style: TextStyle(color: colorScheme.onBackground, fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: const [
-                  Text('View All ', style: TextStyle(color: Colors.blueAccent, fontSize: 12)),
-                  Icon(Icons.chevron_right, color: Colors.blueAccent, size: 16),
-                ],
+                style: TextStyle(
+                  color: colorScheme.onBackground,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
         ),
         SizedBox(
-          height: 120,
+          height: 140,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            itemCount: 4,
+            itemCount: 5,
             itemBuilder: (context, index) {
-              return Container(
-                width: 120,
-                margin: const EdgeInsets.only(right: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: colorScheme.onSurface.withOpacity(0.08)),
-                  image: const DecorationImage(
-                    image: NetworkImage('https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp'), // Placeholder base image
-                    fit: BoxFit.cover,
+              final mockLayout = LayoutModel(
+                id: 'recommended_${index}',
+                name: 'BH 06 Anti 3 Star',
+                imageUrl:
+                    'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
+                category: 'Farming',
+                type: 'Builder',
+                thLevel: 'BH6',
+                status: 'Active',
+                views: 12000,
+                downloads: 850,
+                tags: ['War'],
+                featuredBadges: [],
+                winRate: 4.8,
+                createdAt: DateTime.now(),
+              );
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          LayoutDetailPage(layout: mockLayout),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: 180,
+                  margin: const EdgeInsets.only(right: 12.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: colorScheme.onSurface.withOpacity(0.08),
+                    ),
+                    image: const DecorationImage(
+                      image: NetworkImage(
+                        'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 6,
-                      right: 6,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: Colors.black54,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.favorite_border, color: Colors.white, size: 14),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.85),
+                        ],
                       ),
                     ),
-                  ],
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: 8,
+                          left: 8,
+                          right: 8,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'BH 06 Anti 3 Star',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 2),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                    size: 10,
+                                  ),
+                                  const SizedBox(width: 2),
+                                  Text(
+                                    '4.8',
+                                    style: TextStyle(
+                                      color: Colors.white.withOpacity(0.8),
+                                      fontSize: 9,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },

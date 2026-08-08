@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class NotificationCard extends StatelessWidget {
   final Widget leadingIcon;
@@ -29,15 +30,14 @@ class NotificationCard extends StatelessWidget {
         border: Border.all(color: Colors.white10),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Leading Icon
+          // Icon
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Colors.black26,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white10),
+              color: Colors.white.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: leadingIcon,
           ),
@@ -49,22 +49,21 @@ class NotificationCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    color: isUnread ? Colors.white : Colors.white70,
                     fontSize: 14,
+                    fontWeight: isUnread ? FontWeight.bold : FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   description,
                   style: const TextStyle(
-                    color: Colors.white70,
+                    color: Colors.white54,
                     fontSize: 12,
-                    height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
                   time,
                   style: const TextStyle(
@@ -80,14 +79,12 @@ class NotificationCard extends StatelessWidget {
           if (trailingImageUrl != null)
             Row(
               children: [
-                ClipRRect(
+                CustomNetworkImage(
+                  imageUrl: trailingImageUrl!,
+                  width: 70,
+                  height: 50,
+                  fit: BoxFit.cover,
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    trailingImageUrl!,
-                    width: 70,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  ),
                 ),
                 if (isUnread) ...[
                   const SizedBox(width: 8),

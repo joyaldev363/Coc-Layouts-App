@@ -1,9 +1,8 @@
+import 'package:clashlayouts/features/profile/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../widgets/profile_header.dart';
 import '../widgets/profile_menu.dart';
-import '../widgets/profile_stats.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -16,8 +15,7 @@ class ProfilePage extends ConsumerWidget {
         child: Column(
           children: [
             ProfileHeader(),
-            ProfileStatsRow(),
-            ProfileMenu(),
+            SettingsPage(),
             SizedBox(height: 40), // Bottom padding
           ],
         ),

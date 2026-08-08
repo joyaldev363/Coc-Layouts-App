@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../home/models/layout_model.dart';
 
 import '../widgets/about_base_section.dart';
 import '../widgets/base_image_carousel.dart';
@@ -9,7 +10,9 @@ import '../widgets/recommended_bases_section.dart';
 import '../widgets/secondary_action_buttons.dart';
 
 class LayoutDetailPage extends ConsumerWidget {
-  const LayoutDetailPage({super.key});
+  final LayoutModel layout;
+
+  const LayoutDetailPage({super.key, required this.layout});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +33,7 @@ class LayoutDetailPage extends ConsumerWidget {
           },
         ),
         title: Text(
-          'TH17 Anti 3 Star War Base',
+          layout.name.isNotEmpty ? layout.name : 'CoC Layout',
           style: TextStyle(
             color: colorScheme.onBackground,
             fontSize: 16,
@@ -38,27 +41,21 @@ class LayoutDetailPage extends ConsumerWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite, color: Colors.redAccent),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             BaseImageCarousel(
-              imageUrl:
-                  'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
+              imageUrl: layout.imageUrl.isNotEmpty
+                  ? layout.imageUrl
+                  : 'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
             ),
-            BaseStatsRow(),
-            AboutBaseSection(),
-            PrimaryActionButtons(),
-            SecondaryActionButtons(),
-            SizedBox(height: 8),
-            RecommendedBasesSection(),
-            SizedBox(height: 40),
+            BaseStatsRow(layout: layout),
+            AboutBaseSection(layout: layout),
+            PrimaryActionButtons(layout: layout),
+            const SizedBox(height: 8),
+            const RecommendedBasesSection(),
+            const SizedBox(height: 40),
           ],
         ),
       ),

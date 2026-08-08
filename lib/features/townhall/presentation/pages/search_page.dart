@@ -67,6 +67,8 @@ class SearchPage extends ConsumerWidget {
                   likes: '1.2K',
                   imageUrl:
                       'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
+                  categoryIcon: Icons.shield,
+                  categoryColor: Colors.redAccent,
                 ),
                 SearchResultCard(
                   title: 'TH17 Ring Base War',
@@ -76,6 +78,8 @@ class SearchPage extends ConsumerWidget {
                   likes: '982',
                   imageUrl:
                       'https://media.oneclash.com/optimized/resized-1780189701875-1600w.webp',
+                  categoryIcon: Icons.shield,
+                  categoryColor: Colors.redAccent,
                 ),
                 SearchResultCard(
                   title: 'TH17 Box Base Anti 2 Star',

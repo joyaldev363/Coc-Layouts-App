@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/widgets/custom_network_image.dart';
 
 class BaseImageCarousel extends StatelessWidget {
   final String imageUrl;
@@ -10,8 +11,8 @@ class BaseImageCarousel extends StatelessWidget {
     return Stack(
       children: [
         // Image
-        Image.network(
-          imageUrl,
+        CustomNetworkImage(
+          imageUrl: imageUrl,
           width: double.infinity,
           height: 320,
           fit: BoxFit.cover,
@@ -36,16 +37,55 @@ class BaseImageCarousel extends StatelessWidget {
         Positioned(
           bottom: 16,
           right: 16,
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: const BoxDecoration(
-              color: Colors.black54,
-              shape: BoxShape.circle,
+          child: GestureDetector(
+            onTap: () => _openFullScreen(context),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.black54,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.fullscreen,
+                color: Colors.white,
+                size: 24,
+              ),
             ),
-            child: const Icon(Icons.fullscreen, color: Colors.white, size: 24),
           ),
         ),
       ],
+    );
+  }
+
+  void _openFullScreen(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(Icons.close, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          body: Center(
+            child: InteractiveViewer(
+              panEnabled: true,
+              boundaryMargin: const EdgeInsets.all(20),
+              minScale: 0.5,
+              maxScale: 4.0,
+              child: CustomNetworkImage(
+                imageUrl: imageUrl,
+                width: double.infinity,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
