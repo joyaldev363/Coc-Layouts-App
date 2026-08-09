@@ -12,7 +12,7 @@ class FunnyLayoutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final double rating = layout.winRate ?? 4.7;
+    final double rating = layout.rating;
 
     return GestureDetector(
       onTap: () {

@@ -14,9 +14,7 @@ class ThBaseListCard extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final String displayRating = layout.winRate != null
-        ? layout.winRate!.toStringAsFixed(1)
-        : '4.8';
+    final String displayRating = layout.rating.toStringAsFixed(1);
 
     final String displayViews = layout.views >= 1000
         ? '${(layout.views / 1000).toStringAsFixed(1)}K'

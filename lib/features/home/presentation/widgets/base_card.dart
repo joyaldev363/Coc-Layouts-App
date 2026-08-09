@@ -21,9 +21,7 @@ class BaseCard extends StatelessWidget {
     final String displayTag = layout?.status ?? 'Published';
 
     // Generate dynamic mock rating and counts if layout data is empty
-    final double rating = layout != null
-        ? (4.5 + (layout!.views % 5) * 0.1)
-        : 4.8;
+    final double rating = layout?.rating ?? 4.5;
     final int viewsCount = layout?.views ?? 12400;
     final int downloadsCount = layout?.downloads ?? 320;
 
@@ -64,6 +62,7 @@ class BaseCard extends StatelessWidget {
               tags: ['War'],
               featuredBadges: [],
               createdAt: DateTime.now(),
+              rating: rating,
             );
         Navigator.push(
           context,

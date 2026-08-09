@@ -16,6 +16,7 @@ class LayoutModel {
   final String? imageHash;
   final String? description;
   final DateTime createdAt;
+  final double rating;
 
   LayoutModel({
     required this.id,
@@ -35,6 +36,7 @@ class LayoutModel {
     this.imageHash,
     this.description,
     required this.createdAt,
+    required this.rating,
   });
 
   factory LayoutModel.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class LayoutModel {
       imageHash: json['imageHash'] ?? json['image_hash'],
       description: json['description'],
       createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : DateTime.now(),
+      rating: double.tryParse(json['rating']?.toString() ?? '') ?? 4.5,
     );
   }
 }

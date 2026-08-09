@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../home/models/layout_model.dart';
+import '../../../home/providers/home_providers.dart';
 
-class PrimaryActionButtons extends StatelessWidget {
+class PrimaryActionButtons extends ConsumerWidget {
   final LayoutModel layout;
 
   const PrimaryActionButtons({super.key, required this.layout});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -30,6 +32,9 @@ class PrimaryActionButtons extends StatelessWidget {
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
+                  if (layout.id.isNotEmpty && !layout.id.startsWith('mock_')) {
+                    ref.read(layoutDetailControllerProvider).incrementDownloads(layout.id);
+                  }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -92,7 +97,17 @@ class PrimaryActionButtons extends StatelessWidget {
           Expanded(
             flex: 4,
             child: OutlinedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Starting layout image download...'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+                if (layout.id.isNotEmpty && !layout.id.startsWith('mock_')) {
+                  ref.read(layoutDetailControllerProvider).incrementDownloads(layout.id);
+                }
+              },
               style: OutlinedButton.styleFrom(
                 foregroundColor: colorScheme.onSurface,
                 side: BorderSide(color: colorScheme.onSurface.withOpacity(0.08)),
@@ -114,3 +129,4 @@ class PrimaryActionButtons extends StatelessWidget {
     );
   }
 }
+

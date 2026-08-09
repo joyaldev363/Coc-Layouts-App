@@ -50,6 +50,7 @@ class RecommendedBasesSection extends StatelessWidget {
                 featuredBadges: [],
                 winRate: 4.8,
                 createdAt: DateTime.now(),
+                rating: 4.8,
               );
 
               return GestureDetector(

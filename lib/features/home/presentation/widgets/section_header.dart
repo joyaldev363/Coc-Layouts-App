@@ -3,8 +3,18 @@ import 'package:flutter/material.dart';
 class SectionHeader extends StatelessWidget {
   final String title;
   final Widget icon;
+  final Color? actionColor;
+  final VoidCallback? onSeeAllTap;
+  final bool showSeeAll;
 
-  const SectionHeader({super.key, required this.title, required this.icon});
+  const SectionHeader({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.actionColor,
+    this.onSeeAllTap,
+    this.showSeeAll = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +40,30 @@ class SectionHeader extends StatelessWidget {
               ),
             ],
           ),
-          InkWell(
-            onTap: () {},
-            child: Row(
-              children: [
-                Text(
-                  'See All',
-                  style: TextStyle(
-                    color: colorScheme.onBackground.withOpacity(0.7),
-                    fontSize: 13,
+          if (showSeeAll)
+            InkWell(
+              onTap: onSeeAllTap ?? () {},
+              child: Row(
+                children: [
+                  Text(
+                    'See All',
+                    style: TextStyle(
+                      color: actionColor ?? colorScheme.onBackground.withOpacity(0.7),
+                      fontSize: 13,
+                      fontWeight: actionColor != null ? FontWeight.w600 : FontWeight.normal,
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.chevron_right,
-                  color: colorScheme.onBackground.withOpacity(0.7),
-                  size: 16,
-                ),
-              ],
+                  Icon(
+                    Icons.chevron_right,
+                    color: actionColor ?? colorScheme.onBackground.withOpacity(0.7),
+                    size: 16,
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
   }
 }
+

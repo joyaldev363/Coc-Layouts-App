@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../home/models/layout_model.dart';
+import '../../../home/providers/home_providers.dart';
 
 import '../widgets/about_base_section.dart';
 import '../widgets/base_image_carousel.dart';
@@ -17,6 +18,12 @@ class LayoutDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (layout.id.isNotEmpty && !layout.id.startsWith('mock_')) {
+        ref.read(layoutDetailControllerProvider).incrementViews(layout.id);
+      }
+    });
 
     return Scaffold(
       backgroundColor: colorScheme.background,

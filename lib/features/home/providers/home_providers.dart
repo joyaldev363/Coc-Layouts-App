@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/providers/supabase_provider.dart';
 import '../models/layout_model.dart';
 import '../models/banner_model.dart';
@@ -70,3 +71,53 @@ final townhallsProvider = FutureProvider<List<TownhallModel>>((ref) async {
     return [];
   }
 });
+
+final currentTabProvider = StateProvider<int>((ref) => 0);
+final selectedVillageTypeProvider = StateProvider<bool>((ref) => true);
+
+final layoutDetailControllerProvider = Provider<LayoutDetailController>((ref) {
+  final supabase = ref.watch(supabaseClientProvider);
+  return LayoutDetailController(supabase);
+});
+
+class LayoutDetailController {
+  final SupabaseClient _supabase;
+  LayoutDetailController(this._supabase);
+
+  Future<void> incrementViews(String layoutId) async {
+    try {
+      final response = await _supabase
+          .from('layouts')
+          .select('views')
+          .eq('id', layoutId)
+          .single();
+      
+      final currentViews = (response['views'] as num?)?.toInt() ?? 0;
+      await _supabase
+          .from('layouts')
+          .update({'views': currentViews + 1})
+          .eq('id', layoutId);
+    } catch (e) {
+      print('Error incrementing views in Supabase: $e');
+    }
+  }
+
+  Future<void> incrementDownloads(String layoutId) async {
+    try {
+      final response = await _supabase
+          .from('layouts')
+          .select('downloads')
+          .eq('id', layoutId)
+          .single();
+      
+      final currentDownloads = (response['downloads'] as num?)?.toInt() ?? 0;
+      await _supabase
+          .from('layouts')
+          .update({'downloads': currentDownloads + 1})
+          .eq('id', layoutId);
+    } catch (e) {
+      print('Error incrementing downloads in Supabase: $e');
+    }
+  }
+}
+

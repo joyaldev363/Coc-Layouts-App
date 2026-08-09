@@ -14,7 +14,6 @@ class TownhallPage extends ConsumerStatefulWidget {
 }
 
 class _TownhallPageState extends ConsumerState<TownhallPage> {
-  bool _isHomeVillage = true;
   int _selectedThIndex = 0;
 
   // Mock fallback data for home village
@@ -52,6 +51,7 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final townhallsAsync = ref.watch(townhallsProvider);
+    final isHomeVillage = ref.watch(selectedVillageTypeProvider);
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -98,7 +98,7 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
               .toList();
 
           // Use fallback mock lists if database is empty
-          final currentList = _isHomeVillage
+          final currentList = isHomeVillage
               ? (homeList.isEmpty ? _mockHomeTownHalls : homeList)
               : (builderList.isEmpty ? _mockBuilderHalls : builderList);
 
@@ -110,15 +110,19 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
           return Column(
             children: [
               VillageToggle(
-                isHomeVillageSelected: _isHomeVillage,
-                onHomeSelected: () => setState(() {
-                  _isHomeVillage = true;
-                  _selectedThIndex = 0;
-                }),
-                onBuilderSelected: () => setState(() {
-                  _isHomeVillage = false;
-                  _selectedThIndex = 0;
-                }),
+                isHomeVillageSelected: isHomeVillage,
+                onHomeSelected: () {
+                  ref.read(selectedVillageTypeProvider.notifier).state = true;
+                  setState(() {
+                    _selectedThIndex = 0;
+                  });
+                },
+                onBuilderSelected: () {
+                  ref.read(selectedVillageTypeProvider.notifier).state = false;
+                  setState(() {
+                    _selectedThIndex = 0;
+                  });
+                },
               ),
               Expanded(
                 child: GridView.builder(
@@ -156,28 +160,6 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
                   },
                 ),
               ),
-              // if (currentList.isNotEmpty && _selectedThIndex < currentList.length)
-              //   TownhallBottomPanel(
-              //     title: _isHomeVillage
-              //         ? (currentList[_selectedThIndex]['level'] == 'Hero Hall'
-              //             ? 'Hero Hall'
-              //             : 'Town Hall ${currentList[_selectedThIndex]['level'].replaceAll("TH", "")}')
-              //         : 'Builder Hall ${currentList[_selectedThIndex]['level'].replaceAll("BH", "")}',
-              //     description: _isHomeVillage
-              //         ? 'The strongest Town Hall with advanced defenses and new features!'
-              //         : 'The strongest Builder Hall with advanced defense and mechanical marvels!',
-              //     imageUrl: currentList[_selectedThIndex]['imageUrl'],
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(
-              //           builder: (_) => BaseDetailPage(
-              //             townhallLevel: currentList[_selectedThIndex]['level'],
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //   ),
             ],
           );
         },
@@ -185,15 +167,19 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
         error: (err, stack) => Column(
           children: [
             VillageToggle(
-              isHomeVillageSelected: _isHomeVillage,
-              onHomeSelected: () => setState(() {
-                _isHomeVillage = true;
-                _selectedThIndex = 0;
-              }),
-              onBuilderSelected: () => setState(() {
-                _isHomeVillage = false;
-                _selectedThIndex = 0;
-              }),
+              isHomeVillageSelected: isHomeVillage,
+              onHomeSelected: () {
+                ref.read(selectedVillageTypeProvider.notifier).state = true;
+                setState(() {
+                  _selectedThIndex = 0;
+                });
+              },
+              onBuilderSelected: () {
+                ref.read(selectedVillageTypeProvider.notifier).state = false;
+                setState(() {
+                  _selectedThIndex = 0;
+                });
+              },
             ),
             Expanded(
               child: GridView.builder(
@@ -207,11 +193,11 @@ class _TownhallPageState extends ConsumerState<TownhallPage> {
                   mainAxisSpacing: 12.0,
                   childAspectRatio: 0.85,
                 ),
-                itemCount: _isHomeVillage
+                itemCount: isHomeVillage
                     ? _mockHomeTownHalls.length
                     : _mockBuilderHalls.length,
                 itemBuilder: (context, index) {
-                  final list = _isHomeVillage
+                  final list = isHomeVillage
                       ? _mockHomeTownHalls
                       : _mockBuilderHalls;
                   final th = list[index];

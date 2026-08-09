@@ -176,6 +176,7 @@ class _BaseDetailPageState extends ConsumerState<BaseDetailPage> {
                           featuredBadges: [],
                           winRate: double.tryParse(base['rating'] ?? '4.8'),
                           createdAt: DateTime.now(),
+                          rating: double.tryParse(base['rating'] ?? '4.8') ?? 4.8,
                         ),
                       );
                     },
@@ -226,6 +227,7 @@ class _BaseDetailPageState extends ConsumerState<BaseDetailPage> {
                         featuredBadges: [],
                         winRate: double.tryParse(base['rating'] ?? '4.8'),
                         createdAt: DateTime.now(),
+                        rating: double.tryParse(base['rating'] ?? '4.8') ?? 4.8,
                       ),
                     );
                   },

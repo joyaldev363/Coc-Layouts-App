@@ -29,6 +29,7 @@ class HomePage extends ConsumerWidget {
             const SectionHeader(
               title: 'Latest Bases',
               icon: Text('🔥', style: TextStyle(fontSize: 20)),
+              showSeeAll: false,
             ),
             layoutsAsync.when(
               data: (layouts) {
@@ -61,9 +62,14 @@ class HomePage extends ConsumerWidget {
               error: (err, stack) => _buildMockLatestList(),
             ),
             const SizedBox(height: 12),
-            const SectionHeader(
-              title: 'Popular Categories',
-              icon: SizedBox.shrink(),
+            SectionHeader(
+              title: 'Categories',
+              icon: const Icon(
+                Icons.grid_view_rounded,
+                color: Color(0xFF8B5CF6),
+                size: 22,
+              ),
+              showSeeAll: false,
             ),
             const CategoryList(),
             const SizedBox(height: 12),
@@ -114,6 +120,7 @@ class HomePage extends ConsumerWidget {
                 color: Colors.orangeAccent,
                 size: 24,
               ),
+              showSeeAll: false,
             ),
             layoutsAsync.when(
               data: (layouts) {
@@ -190,6 +197,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.9,
         description: 'Most copied base of this week',
         createdAt: DateTime.now(),
+        rating: 4.9,
       ),
       LayoutModel(
         id: 'mock_pop_2',
@@ -207,6 +215,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.8,
         description: 'Excellent defensive base for CWL',
         createdAt: DateTime.now(),
+        rating: 4.8,
       ),
       LayoutModel(
         id: 'mock_pop_3',
@@ -224,6 +233,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.7,
         description: 'Optimal dark elixir protection',
         createdAt: DateTime.now(),
+        rating: 4.7,
       ),
     ];
 
@@ -252,6 +262,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.8,
         description: 'Beautiful flower layout for decoration',
         createdAt: DateTime.now(),
+        rating: 4.8,
       ),
       LayoutModel(
         id: 'mock_fun_2',
@@ -269,6 +280,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.7,
         description: 'Pikachu shaped obstacle base design',
         createdAt: DateTime.now(),
+        rating: 4.7,
       ),
       LayoutModel(
         id: 'mock_fun_3',
@@ -286,6 +298,7 @@ class HomePage extends ConsumerWidget {
         winRate: 4.6,
         description: 'Love heart design layout',
         createdAt: DateTime.now(),
+        rating: 4.6,
       ),
     ];
 

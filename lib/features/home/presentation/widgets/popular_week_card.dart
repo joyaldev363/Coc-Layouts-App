@@ -20,7 +20,7 @@ class PopularWeekCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     // Use rating if available, else generate a mock rating
-    final double rating = layout.winRate ?? 4.8;
+    final double rating = layout.rating;
     final String displayViews = layout.views >= 1000
         ? '${(layout.views / 1000).toStringAsFixed(1)}K'
         : layout.views.toString();

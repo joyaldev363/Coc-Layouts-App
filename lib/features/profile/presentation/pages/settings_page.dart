@@ -14,9 +14,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  
     final darkThemeEnabled = ref.watch(darkThemeProvider);
-  
+
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -46,22 +45,6 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
         ]),
-
-        const SizedBox(height: 24),
-        _buildSectionHeader(context, 'Activity & Support'),
-        _buildSettingsGroup(context, [
-          _buildNavigationItem(
-            context,
-            Icons.headset_mic_outlined,
-            'Help & Support',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Opening Help & Support...')),
-              );
-            },
-          ),
-        ]),
-
         const SizedBox(height: 24),
         _buildSectionHeader(context, 'About'),
         _buildSettingsGroup(context, [
@@ -75,17 +58,7 @@ class SettingsPage extends ConsumerWidget {
               );
             },
           ),
-          _buildDivider(context),
-          _buildNavigationItem(
-            context,
-            Icons.share_outlined,
-            'Share App',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Opening Share Dialog...')),
-              );
-            },
-          ),
+
           _buildDivider(context),
           _buildNavigationItem(
             context,

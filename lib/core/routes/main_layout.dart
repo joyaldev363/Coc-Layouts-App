@@ -4,38 +4,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/townhall/presentation/pages/townhall_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
+import '../../features/home/providers/home_providers.dart';
 
-class MainLayout extends ConsumerStatefulWidget {
+class MainLayout extends ConsumerWidget {
   const MainLayout({super.key});
 
-  @override
-  ConsumerState<MainLayout> createState() => _MainLayoutState();
-}
-
-class _MainLayoutState extends ConsumerState<MainLayout> {
-  int _currentIndex = 0;
-
   // Real pages for the tabs
-  final List<Widget> _pages = [
-    const HomePage(),
-    const TownhallPage(),
-    const ProfilePage(),
+  static const List<Widget> _pages = [
+    HomePage(),
+    TownhallPage(),
+    ProfilePage(),
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(currentTabProvider);
+
     return Scaffold(
       // Using IndexedStack to preserve state of pages when switching
       body: IndexedStack(
-        index: _currentIndex,
+        index: currentIndex,
         children: _pages,
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
+        selectedIndex: currentIndex,
         onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          ref.read(currentTabProvider.notifier).state = index;
         },
         // Modern Material 3 aesthetics
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,

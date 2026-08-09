@@ -16,10 +16,8 @@ class BaseStatsRow extends StatelessWidget {
         ? '${(layout.views / 1000).toStringAsFixed(1)}K'
         : layout.views.toString();
 
-    // Display rating/win rate
-    final String displayRating = layout.winRate != null
-        ? layout.winRate!.toStringAsFixed(1)
-        : '4.8';
+    // Display rating
+    final String displayRating = layout.rating.toStringAsFixed(1);
 
     return Container(
       margin: const EdgeInsets.all(16.0),
@@ -49,7 +47,11 @@ class BaseStatsRow extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    layout.thLevel.isNotEmpty ? layout.thLevel : 'TH17',
+                    layout.thLevel.isNotEmpty
+                        ? (layout.winRate != null && layout.winRate! > 0
+                            ? '${layout.thLevel.toUpperCase()} • ${layout.winRate!.toStringAsFixed(0)}% Win Rate'
+                            : layout.thLevel.toUpperCase())
+                        : 'TH17',
                     style: TextStyle(
                       color: colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 11,
