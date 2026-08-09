@@ -11,8 +11,8 @@ class BaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    
+ 
 
     final String displayTitle = layout?.name ?? title ?? 'CoC Layout';
     final String displayImage =
@@ -183,10 +183,5 @@ class BaseCard extends StatelessWidget {
     );
   }
 
-  String _formatCount(int count) {
-    if (count >= 1000) {
-      return '${(count / 1000).toStringAsFixed(1)}K';
-    }
-    return count.toString();
-  }
+  
 }

@@ -14,13 +14,9 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pushEnabled = ref.watch(pushNotificationsProvider);
+  
     final darkThemeEnabled = ref.watch(darkThemeProvider);
-    final defaultTh = ref.watch(defaultTownHallProvider);
-
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
+  
     return ListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

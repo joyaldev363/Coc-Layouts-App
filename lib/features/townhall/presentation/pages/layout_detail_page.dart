@@ -7,7 +7,6 @@ import '../widgets/base_image_carousel.dart';
 import '../widgets/base_stats_row.dart';
 import '../widgets/primary_action_buttons.dart';
 import '../widgets/recommended_bases_section.dart';
-import '../widgets/secondary_action_buttons.dart';
 
 class LayoutDetailPage extends ConsumerWidget {
   final LayoutModel layout;

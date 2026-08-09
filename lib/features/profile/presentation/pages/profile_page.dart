@@ -2,7 +2,6 @@ import 'package:clashlayouts/features/profile/presentation/pages/settings_page.d
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/profile_header.dart';
-import '../widgets/profile_menu.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});

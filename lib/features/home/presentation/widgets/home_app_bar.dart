@@ -1,6 +1,4 @@
-import 'package:clashlayouts/features/townhall/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
-import '../pages/notifications_page.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key});
